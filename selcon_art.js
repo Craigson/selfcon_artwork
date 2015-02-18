@@ -103,16 +103,7 @@ function printList(){
 
 //below is the p5.js sketch portion
 
-function setup(){
-var myCanvas = createCanvas(600, 400);
-myCanvas.parent('myContainer');
-background(240);
-}
 
-function draw(){
-fill(122,122,0);
-ellipse(50,50,10,10);
-}
 
 /* Have different styles:
 abstract

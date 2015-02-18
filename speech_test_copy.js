@@ -1,14 +1,4 @@
-var list = [];
-
-// var keyWords = [{
-//     key: 'color',
-//     sentiment: 0
-//   },
-//   {
-//     key: 'composition',
-//     sentiment: 0
-//   }];
-
+//create keywords for identifying variables inside the p5 sketch
 var keywords = ['color','composition'];
 
 var changeComp = false;
@@ -16,26 +6,16 @@ var changePalette = false;
 
 var recognition = new webkitSpeechRecognition();
 recognition.continuous = true;
-var corpus = '';
 recognition.lang = 'en-US'; 
 recognition.start();
 
-//create object containing parameters for AlchemyAPI request
-var params = {
-  text: '',
-  apikey: '0a6f695b7fd0be6f448bd17293560398eb8890fe',
-  outputMode: 'json'
-}
 
+//when speech is detected, 
 recognition.onspeechstart = function(event){
 console.log("speech has started");
 go();
 };
 
-recognition.onspeechend = function(event){
-  console.log("it's over");
-go();
-};
 
 function go(){
 
@@ -48,9 +28,10 @@ function go(){
     var res = event.results[i][0].transcript;
     var sentiment = 0;
     
+    //create object containing parameters for AlchemyAPI request
     var params = {
       text: res,
-      apikey: 'YOUR_KEY',
+      apikey: '0a6f695b7fd0be6f448bd17293560398eb8890fe',
       outputMode: 'json'
     }
 
@@ -58,39 +39,48 @@ function go(){
 
     console.log("making api call");
     $.getJSON(url, params, function(data) {
-      // $('body').append(res+' ('+data.docSentiment.type+':'+data.docSentiment.score+')<br>');
       sentiment = data.docSentiment.score;
-      console.log("text: " + res);
-      console.log("sentiment: "+ sentiment);
-    });
-
-    if (res.indexOf('color') !== -1 && sentiment < 0){
-        changePalette = true;
+      // console.log("text: " + res);
+      // console.log("sentiment: "+ sentiment);
+      if (res.indexOf('color') !== -1 && sentiment < 0.3){
+        changeColor();
         console.log("changing color of artwork");
-      } else if (res.indexOf('composition') !== -1 && sentiment < 0){
+      } else if (res.indexOf('composition') !== -1 && sentiment < 0.3){
         changeComp = true;
         console.log("changing composition of artwork");
-    }
+       } else {
+          console.log("No keywords detected in: "+ res);
+      }
+    });
+
+
 
     i++;
   };
 }
 
+function stopRec(){
+  recognition.stop();
+}
  
-    
-/*
-
-  console.log("was: " + changePalette + " " + changeComp + " " + list.length)
-  changeVariables();
-  changePalette = false;
-  changeComp = false;
-  console.log("is now: " + changePalette + " " + changeComp + " " + list.length)
-*/
-
-
-function changeVariables(){
-//code in here to change p5 sketch
-console.log("changing the painting now");
-
+function setup(){
+var myCanvas = createCanvas(800, 600);
+myCanvas.parent('myContainer');
+background(240,125);
+c = color(0,0,0);
 }
 
+function draw(){
+  noStroke();
+fill(c);
+ellipse(150,150,50,50);
+}
+
+function changeColor(){
+c = color(Math.floor((Math.random() * 255)),Math.floor((Math.random() * 255)),Math.floor((Math.random() * 255)));
+}
+
+function drawInitial(){
+
+  //draw the "original" artwork here
+}
