@@ -1,8 +1,14 @@
 //create keywords for identifying variables inside the p5 sketch
 var keywords = ['color','composition'];
 
-var changeComp = false;
-var changePalette = false;
+var paletteMult;
+var r = [];
+var g = [];
+var b = [];
+var rad = [];
+var numCircles;
+var x = [];
+var y = [];
 
 var recognition = new webkitSpeechRecognition();
 recognition.continuous = true;
@@ -43,11 +49,11 @@ function go(){
       // console.log("text: " + res);
       // console.log("sentiment: "+ sentiment);
       if (res.indexOf('color') !== -1 && sentiment < 0.3){
-        changeColor();
         console.log("changing color of artwork");
+        changeColor();
       } else if (res.indexOf('composition') !== -1 && sentiment < 0.3){
-        changeComp = true;
         console.log("changing composition of artwork");
+        changeComp();
        } else {
           console.log("No keywords detected in: "+ res);
       }
@@ -64,23 +70,50 @@ function stopRec(){
 }
  
 function setup(){
-var myCanvas = createCanvas(800, 600);
-myCanvas.parent('myContainer');
-background(240,125);
-c = color(0,0,0);
+  var myCanvas = createCanvas(800, 600);
+  myCanvas.parent('myContainer');
+  numCircles = 30;
+  paletteMult = Math.floor((Math.random() * 5)+1);
+
+  for (var i = 0; i < numCircles; i++){
+    r[i] = Math.floor((Math.random() * 51));
+    g[i] = Math.floor((Math.random() * 51));
+    b[i] = Math.floor((Math.random() * 51));
+    rad[i] = Math.ceil((Math.random() * 60));
+    x[i] = Math.ceil((Math.random() * (width-rad[i])) + rad[i]);
+    y[i] = Math.ceil((Math.random() * (height-rad[i])) + rad[i]);
+  }
+console.log(paletteMult);
 }
+// console.log(r);
+// console.log(g);
+// console.log(b);
+// console.log(rad);
+// console.log(x);
+// console.log(y);
+
 
 function draw(){
-  noStroke();
-fill(c);
-ellipse(150,150,50,50);
+background(255);
+  for (var j = 0; j < numCircles; j++){
+    fill(r[j] * paletteMult, g[j] * paletteMult, b[j] * paletteMult);
+    ellipse(x[j], y[j], rad[j], rad[j]);
+  }
 }
 
 function changeColor(){
-c = color(Math.floor((Math.random() * 255)),Math.floor((Math.random() * 255)),Math.floor((Math.random() * 255)));
+paletteMult = Math.floor((Math.random() * 5)+1);
 }
 
-function drawInitial(){
-
-  //draw the "original" artwork here
+function changeComp(){
+  numCircles = Math.floor((Math.random() * 50));
+  console.log(numCircles);
+    for (var i = 0; i < numCircles; i++){
+    rad[i] = Math.ceil((Math.random() * 60));
+    x[i] = Math.ceil((Math.random() * (width-rad[i])) + rad[i]);
+    y[i] = Math.ceil((Math.random() * (height-rad[i])) + rad[i]);
+  }
 }
+
+
+
