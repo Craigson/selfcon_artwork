@@ -6,38 +6,28 @@ background: url(wall.jpg) no-repeat center center fixed;
   background-size: cover;
 }
 
-/*#frame {
-position:fixed;
-	display:block;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:50px;
+body{
+font-size: 12;
 }
+
 
 #myContainer {
-	display:block;
-	position:fixed;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:50px;
-	z-index: -1;
-}*/
-
-#container {
-    width: 800px;
-    height: 600px;
-    position: relative;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -60%);
+   box-shadow: 5px 5px 3px #888888;
 }
 
-#frame, 
-#myContainer{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+h1{
+font-family: 'Open Sans Condensed', sans-serif;
+	font-size:2em;
 }
 
-#infoi {
-    z-index: 10;
-}
+#title {
+	position:absolute;
+	width:100%;
+	text-align: right;
+	bottom:0px;
+right: 15px;
